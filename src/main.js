@@ -8,8 +8,6 @@ import store from './store'
     Font Awesome Icons
 */
 
-import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
-
 /*
     Bootstrap CSS , JS
 */
