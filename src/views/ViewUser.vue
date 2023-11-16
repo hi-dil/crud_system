@@ -48,9 +48,12 @@
       </div>
     </div>
     <div class="row mt-3">
-      <div class="col">
-        <router-link to="/" class="btn btn-success"
+      <div class="col d-flex justify-content-between">
+        <router-link to='/' class="btn btn-success"
           ><i class="fa fa-arrow-alt-circle-left"></i> Back</router-link
+        >
+        <button class="btn btn-success" @click="goToDetail()"
+          ><i class="fa fa-pen-to-square"></i> Edit</button
         >
       </div>
     </div>
@@ -63,17 +66,16 @@ import { mapGetters } from "vuex";
 export default {
   name: "ViewUser",
   computed: {
-    ...mapGetters(["getUsers"]),
+    ...mapGetters(["getUsers", "getUserDetails"]),
     getUser() {
-
-      const user = this.getUsers.find(
-        (user) => user.id == this.$route.params.userId
-      );
-
-      console.log(user);
-      return user;
+      return this.getUserDetails(this.$route.params.userId)
     },
   },
+  methods: {
+    goToDetail() {
+      this.$router.push({ path: `/users/edit/${this.getUser.id}` })
+    },
+  }
 };
 </script>
 

@@ -130,9 +130,9 @@ export default {
   },
   methods: {
     ...mapActions(['addUser']),
-    onSubmit(e) {
+    async onSubmit(e) {
       e.preventDefault();
-      this.addUser(this.formData);
+      await this.addUser(this.formData);
       this.$router.push('/')
     },
   },

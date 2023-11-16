@@ -4,12 +4,36 @@ import axios from "axios";
 export default createStore({
   state: {
     users: [],
+    oldUsersList: [],
     totalUsers: 10,
   },
   getters: {
     getUsers: (state) => state.users,
-    getUser: (state) => (id) => {
-      return state.users.find((user) => user.id === id);
+    getUserDetails: (state) => (id) => {
+      const userDetails = state.users.find((user) => user.id == id);
+      console.log(userDetails);
+      if (!userDetails) {
+        return {
+          id: 0,
+          name: "",
+          username: "",
+          email: "",
+          address: {
+            street: "",
+            suite: "",
+            city: "",
+            zipcode: "",
+          },
+          phone: "",
+          website: "",
+          company: {
+            name: "",
+            catchPhrase: "",
+          },
+        };
+      }
+
+      return userDetails;
     },
   },
   mutations: {
@@ -19,10 +43,16 @@ export default createStore({
     newUser(state, userData) {
       userData.id = ++state.totalUsers;
       state.users.unshift(userData);
-      console.log(state.users)
     },
-    // deleteUser(userID) {},
-    // updateUser(userID) {},
+    deleteUser(state, userID) {
+      state.users = state.users.filter((user) => user.id != userID);
+    },
+    updateUser(state, userData) {
+      const index = state.users.findIndex((user) => user.id == userData.id);
+      if (index !== -1) {
+        state.users.splice(index, 1, userData);
+      }
+    },
   },
   actions: {
     async fetchUsers({ commit }) {
@@ -61,6 +91,29 @@ export default createStore({
         );
 
         commit("newUser", response.data);
+      } catch (error) {
+        console.log(Object.keys(error), error.message);
+      }
+    },
+    async removeUser({ commit }, id) {
+      try {
+        await axios.delete(
+          `https://jsonplaceholder.typicode.com/users/${id}`,
+        );
+
+        commit("deleteUser", id);
+      } catch (error) {
+        console.log(Object.keys(error), error.message);
+      }
+    },
+    async editUser({ commit }, formData) {
+      try {
+        const response = await axios.patch(
+          `https://jsonplaceholder.typicode.com/users/${formData.id}`,
+          formData,
+        );
+
+        commit("editUserDetails", response.data);
       } catch (error) {
         console.log(Object.keys(error), error.message);
       }

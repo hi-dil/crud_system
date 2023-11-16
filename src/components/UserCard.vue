@@ -20,7 +20,6 @@ export default {
   },
   methods: {
     handleOnClick() {
-      console.log(`handle clickable ${this.user.id}`);
       this.$router.push({ path: `/users/view/${this.user.id}` });
     },
   },
