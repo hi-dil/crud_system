@@ -146,7 +146,7 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
       await this.editUser(this.getUserDetails)
-      this.$router.push('/')
+      this.$router.push({ path: `/users/view/${this.getUser.id}` })
     }
     
   }

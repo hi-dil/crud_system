@@ -39,10 +39,12 @@ export default createStore({
   mutations: {
     setUsers(state, userslist) {
       state.users = userslist;
+      state.oldUsersList = state.users;
     },
     newUser(state, userData) {
       userData.id = ++state.totalUsers;
       state.users.unshift(userData);
+      state.oldUsersList.unshift(userData);
     },
     deleteUser(state, userID) {
       state.users = state.users.filter((user) => user.id != userID);
@@ -52,6 +54,22 @@ export default createStore({
       if (index !== -1) {
         state.users.splice(index, 1, userData);
       }
+    },
+    filterUser: (state, filter) => {
+      console.log(filter);
+
+      if (filter.value === "") {
+        state.users = state.oldUsersList;
+        return;
+      }
+
+      state.users = state.oldUsersList.filter((user) => {
+        if (filter.type === "id") {
+          return user.id == filter.value;
+        } else {
+          return user[filter.type].toLowerCase().includes(filter.value);
+        }
+      });
     },
   },
   actions: {

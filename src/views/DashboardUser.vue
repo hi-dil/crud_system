@@ -14,15 +14,28 @@
           maxime impedit maiores placeat sunt! Ratione autem necessitatibus
           aliquid sequi nobis quasi.
         </p>
-        <form>
+        <form @submit="onSubmitFilter">
           <div class="row">
             <div class="col-md-6">
               <div class="row">
+                <div class="col">
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    v-model="filterType"
+                  >
+                    <option value="" >Select filter</option>
+                    <option value="id">ID</option>
+                    <option value="name">Name</option>
+                    <option value="username">Username</option>
+                  </select>
+                </div>
                 <div class="col">
                   <input
                     type="text"
                     class="form-control"
                     placeholder="Search User"
+                    v-model="filterValue"
                   />
                 </div>
                 <div class="col">
@@ -49,14 +62,31 @@
 
 <script>
 import UserCard from "../components/UserCard.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "DashboardUser",
+  data() {
+    return {
+      filterType: "",
+      filterValue: "",
+    };
+  },
   components: {
     UserCard,
   },
   computed: mapGetters(["getUsers"]),
+  methods: {
+    ...mapMutations(["filterUser"]),
+    onSubmitFilter(e) {
+      e.preventDefault();
+      const filter = {
+        type: this.filterType,
+        value: this.filterValue
+      }
+      this.filterUser(filter)
+    }
+  }
 };
 </script>
 

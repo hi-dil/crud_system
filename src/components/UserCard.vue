@@ -3,9 +3,10 @@
   <div class="card m-2" style="width: 21rem;" @click="handleOnClick">
     <div class="card-body w-xl">
       <h3 class="card-title">{{ user.name }}</h3>
-      <h6 class="card-subtitle mb-2 text-muted">@{{ user.username }}</h6>
-      <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
-      <p class="card-text"><strong>Phone:</strong> {{ user.phone }}</p>
+      <h6 class="card-subtitle mb-4 text-muted">@{{ user.username }}</h6>
+      <p class="card-text mb-1"><strong>User Id:</strong> {{ user.id }}</p>
+      <p class="card-text mb-1"><strong>Email:</strong> {{ user.email }}</p>
+      <p class="card-text mb-1"><strong>Phone:</strong> {{ user.phone }}</p>
     </div>
   </div>
 </template>
